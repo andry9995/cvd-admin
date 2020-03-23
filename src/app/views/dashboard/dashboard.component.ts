@@ -24,6 +24,13 @@ export class DashboardComponent implements OnInit {
   percentJaune = 0;
   percentRouge = 0;
 
+  countSymptom = 0;
+  lat = -11.733308;
+  lng = 43.2648763;
+  zoom = 9;
+
+  locationList = [];
+
   constructor(public firebase: AngularFireDatabase) { 
     this.listPeople('tous');
   }
@@ -31,6 +38,7 @@ export class DashboardComponent implements OnInit {
   initialize(){
     this.people = [];
     this.symptomList = [];
+    this.locationList = [];
     this.tous = 0;
     this.jaune = 0;
     this.rouge = 0;
@@ -40,36 +48,53 @@ export class DashboardComponent implements OnInit {
     this.percentBlanc = 0;
     this.percentJaune = 0;
     this.percentRouge = 0;
+    this.countSymptom = 0;
+  }
+
+
+  list(){
+    return new Promise((resolve)=>{
+      this.firebase.object('people').valueChanges().subscribe((people:any)=>{
+        resolve(people);
+      });
+    });
+  }
+
+  getSurvey(surveyKey){
+    return new Promise((resolve)=>{
+      this.firebase.object('survey/' + surveyKey).valueChanges().subscribe((survey:any)=>{
+        resolve(survey)
+      });
+    })
   }
 
   listPeople(status){
 
     this.initialize();
 
-    this.covidSymptom().then((symptomList)=>{
+    this.covidSymptom().then((countSymptom)=>{
 
-        this.firebase.object('people').valueChanges().subscribe((people:any)=>{
+        this.list().then((people:any)=>{
             for(let i in people){
               let surveyKey = i;
-              this.firebase.object('survey/' + surveyKey).valueChanges().subscribe((survey:any)=>{
+              this.getSurvey(surveyKey).then((survey:any)=>{
                 var mySymptom = [];
                 for(let j in survey){
                   var qstKey = j.replace("qst","")
-                  if(survey[j] == "oui" && this.symptomList.includes(qstKey)){
+                  if(survey[j] == "oui"){
                     mySymptom.push(qstKey);
                   }
                 }
 
-                var percent   = this.percentage(mySymptom);
                 var confirmed = "blanc";
 
                 this.tous += 1;
 
-                if(percent > 49 && percent <= 79){
+                if(mySymptom.length > 0 && mySymptom.length <= 3){
                   confirmed = "jaune";
                   this.jaune += 1;
                 } else {
-                  if (percent > 79){
+                  if (mySymptom.length > 3){
                     confirmed = "rouge";
                     this.rouge += 1;
                   } else {
@@ -80,17 +105,28 @@ export class DashboardComponent implements OnInit {
                 this.statistique();
                 
                 people[i]['me'] = mySymptom.length;
-                people[i]['sick'] = this.symptomList.length;
-                people[i]['percent']   = percent;
+                people[i]['sick'] = this.countSymptom;
+                people[i]['percent']   = this.percentage(mySymptom.length);
                 people[i]['confirmed'] = confirmed;
+
+
+                if(people[i].location){
+                    // this.locationList.push(people[i].location);
+                }
 
                 if (status != 'tous') {
                   if (confirmed == status) {
                     this.people.push(people[i]);
+                    if(status != 'blanc'){
+                      this.locationList.push(people[i].location);
+                    }
                   }
-
                 } else {
                   this.people.push(people[i]);
+                  if(status != 'blanc'){
+                    this.locationList.push(people[i].location);
+                  }
+
                 }
 
               })
@@ -98,6 +134,10 @@ export class DashboardComponent implements OnInit {
         })
     })
 
+  }
+
+  percentage(count){
+    return Math.round((count * 122) / this.countSymptom);
   }
 
   statistique(){
@@ -110,25 +150,11 @@ export class DashboardComponent implements OnInit {
   covidSymptom(){
     return new Promise((resolve)=>{
       this.firebase.object('questionnaire').valueChanges().subscribe((questionnaires:any)=>{
-        for(let key in questionnaires){
-          let question = questionnaires[key];
-          if(question.symptom == true){
-            this.symptomList.push(key);
-          }
-        }
-        resolve(this.symptomList);
+        this.countSymptom = questionnaires.length - 1;
+        resolve(this.countSymptom);
       })
     })
 
-  }
-
-  percentage(mySymptom){
-    var me = mySymptom.length;
-    var sick = this.symptomList.length;
-
-    var percent = Math.round(( me * 100 ) / sick);
-
-    return percent; 
   }
 
   setMyStyles(percent) {

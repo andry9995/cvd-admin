@@ -26,6 +26,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 // import { FirebaseProvider } from '../providers/firebase/firebase';
 
+import { AgmCoreModule } from '@agm/core';
+
 import { CommonModule } from "@angular/common";
 
 const APP_CONTAINERS = [
@@ -66,6 +68,10 @@ import { ChartsModule } from 'ng2-charts';
     AngularFireDatabaseModule,
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFirestoreModule.enablePersistence(),
+    AgmCoreModule.forRoot({
+      apiKey:'AIzaSyAXFL9EGDk4-d0HAFyIHEpJ_EaJyHwjo5E',
+      libraries: ["places"]
+    })
   ],
   declarations: [
     // DashboardComponent,

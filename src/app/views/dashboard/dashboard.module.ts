@@ -9,6 +9,9 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 
 import { CommonModule } from '@angular/common';
 
+import { AgmCoreModule } from '@agm/core';
+
+
 
 @NgModule({
   imports: [
@@ -17,7 +20,11 @@ import { CommonModule } from '@angular/common';
     DashboardRoutingModule,
     ChartsModule,
     BsDropdownModule,
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey:'AIzaSyAXFL9EGDk4-d0HAFyIHEpJ_EaJyHwjo5E',
+      libraries: ["places"]
+    })
   ],
   declarations: [ DashboardComponent ]
 })

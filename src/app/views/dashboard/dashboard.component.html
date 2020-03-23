@@ -42,6 +42,8 @@
         </div>
     </div>
 
+    
+
 
   <div class="row">
 
@@ -100,11 +102,12 @@
                             <td>
                                 <div class="clearfix">
                                     <div class="float-left">
-                                      <strong>{{person.percent}}% des symptômes</strong>
+                                      <!-- <strong>{{person.percent}}% des symptômes</strong> -->
+                                      <strong>{{ person.me }}/{{person.sick}} symptomes</strong>
                                     </div>
-                                    <div class="float-right">
+                                    <!-- <div class="float-right">
                                       <small class="text-muted">{{ person.me }}/{{person.sick}} symptomes</small>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="progress progress-xs" *ngIf="person.confirmed == 'rouge'">
                                     <div class="progress-bar bg-danger" role="progressbar" [ngStyle]="setMyStyles(person.percent)" [attr.aria-valuenow]="person.percent" aria-valuemin="0" aria-valuemax="100"></div>
@@ -126,6 +129,19 @@
     </div>
 
   </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">Cartographie</div>
+            <div class="card-body">
+                <agm-map [zoom]="zoom" [latitude]="lat" [longitude]="lng">
+                 <agm-marker *ngFor="let location of locationList" [latitude]="location.lat" [longitude]="location.lng" ></agm-marker>
+               </agm-map>
+            </div>
+        </div>
+    </div>
+    </div>
 </div>
 
 <style type="text/css">
@@ -138,6 +154,9 @@
     i.jaune{
         color: #ff9800 !important;
     }
+    agm-map {
+     height: 500px;
+   }
 </style>
 
 
