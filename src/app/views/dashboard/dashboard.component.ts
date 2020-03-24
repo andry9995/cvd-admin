@@ -12,23 +12,20 @@ export class DashboardComponent implements OnInit {
     
   }
 
-  people = [];
-  symptomList = [];
-  tous = 0;
-  jaune = 0;
-  rouge = 0;
-  blanc = 0;
-
-  percentTous = 0;
+  people       = [];
+  symptomList  = [];
+  tous         = 0;
+  jaune        = 0;
+  rouge        = 0;
+  blanc        = 0;
+  percentTous  = 0;
   percentBlanc = 0;
   percentJaune = 0;
   percentRouge = 0;
-
   countSymptom = 0;
-  lat:number = -11.733308;
-  lng:number = 43.2648763;
-  zoom = 10;
-
+  lat          :number = -11.733308;
+  lng          :number = 43.2648763;
+  zoom         = 10;
   locationList = [];
 
   constructor(public firebase: AngularFireDatabase) { 
@@ -36,15 +33,14 @@ export class DashboardComponent implements OnInit {
   }
 
   initialize(){
-    this.people = [];
-    this.symptomList = [];
+    this.people       = [];
+    this.symptomList  = [];
     this.locationList = [];
-    this.tous = 0;
-    this.jaune = 0;
-    this.rouge = 0;
-    this.blanc = 0;
-
-    this.percentTous = 0;
+    this.tous         = 0;
+    this.jaune        = 0;
+    this.rouge        = 0;
+    this.blanc        = 0;
+    this.percentTous  = 0;
     this.percentBlanc = 0;
     this.percentJaune = 0;
     this.percentRouge = 0;
@@ -87,10 +83,8 @@ export class DashboardComponent implements OnInit {
                 }
 
                 var confirmed = "blanc";
-
-                var simley = "icon-emotsmile"
-
-                this.tous += 1;
+                var simley    = "icon-emotsmile"
+                this.tous     += 1;
 
                 if(mySymptom.length > 0 && mySymptom.length <= 3){
                   confirmed = "jaune";
@@ -108,11 +102,11 @@ export class DashboardComponent implements OnInit {
 
                 this.statistique();
                 
-                people[i]['me'] = mySymptom.length;
-                people[i]['sick'] = this.countSymptom;
+                people[i]['me']        = mySymptom.length;
+                people[i]['sick']      = this.countSymptom;
                 people[i]['percent']   = this.percentage(mySymptom.length);
                 people[i]['confirmed'] = confirmed;
-                people[i]['simley'] = simley;
+                people[i]['simley']    = simley;
 
                 if (status != 'tous') {
                   if (confirmed == status) {
@@ -120,15 +114,11 @@ export class DashboardComponent implements OnInit {
                     if(confirmed != 'blanc' && people[i].location){
                       people[i].location.color = this.getRadiusColor(confirmed)
                       this.locationList.push(people[i].location);
-                      // people[i]['color'] = "#ff9800";
                     }
                   }
                 } else {
                   this.people.push(people[i]);
                   if(confirmed != 'blanc' && people[i].location){
-
-                    console.log(confirmed);
-
                     people[i].location.color = this.getRadiusColor(confirmed)
                     this.locationList.push(people[i].location);
                   }
@@ -158,7 +148,7 @@ export class DashboardComponent implements OnInit {
   }
 
   statistique(){
-    this.percentTous = Math.round((this.tous * 100) / this.tous);
+    this.percentTous  = Math.round((this.tous * 100) / this.tous);
     this.percentBlanc = Math.round((this.blanc * 100) / this.tous);
     this.percentJaune = Math.round((this.jaune * 100) / this.tous);
     this.percentRouge = Math.round((this.rouge * 100) / this.tous);
