@@ -4,10 +4,75 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    Statistique
+                    <h3>
+                      <i class="icon-chart"></i>
+                      Statistique
+                    </h3>
                 </div>
                 <div class="card-body">
+
                     <div class="row text-center">
+                         <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                          <div class="card text-white bg-info">
+                            <div class="card-body">
+                              <div class="h1 text-muted text-right mb-4">
+                                <i class="icon-people"></i>
+                              </div>
+                              <div class="h4 mb-0">{{ tous }} Personnes ({{percentTous}}%)</div>
+                              <small class="text-muted text-uppercase font-weight-bold">Tous</small>
+                              <div class="progress progress-white progress-xs mt-3">
+                                <div class="progress-bar" role="progressbar" [ngStyle]="setMyStyles(percentTous)" [attr.aria-valuenow]="percentTous" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div><!--/.col-->
+                        <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                          <div class="card text-white bg-success">
+                            <div class="card-body">
+                              <div class="h1 text-muted text-right mb-4">
+                                <i class="icon-emotsmile"></i>
+                              </div>
+                              <div class="h4 mb-0">{{blanc}} Personnes ({{percentBlanc}}%)</div>
+                              <small class="text-muted text-uppercase font-weight-bold">Blanc</small>
+                              <div class="progress progress-white progress-xs mt-3">
+                                <div class="progress-bar" role="progressbar" [ngStyle]="setMyStyles(percentBlanc)" [attr.aria-valuenow]="percentBlanc" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div><!--/.col-->
+                        <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                          <div class="card text-white bg-warning">
+                            <div class="card-body">
+                              <div class="h1 text-muted text-right mb-4">
+                                <i class="fa fa-meh-o"></i>
+                              </div>
+                              <div class="h4 mb-0">{{jaune}} Personnes ({{percentJaune}}%)</div>
+                              <small class="text-muted text-uppercase font-weight-bold">Jaune</small>
+                              <div class="progress progress-white progress-xs mt-3">
+                                <div class="progress-bar" role="progressbar" [ngStyle]="setMyStyles(percentJaune)" [attr.aria-valuenow]="percentJaune" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div><!--/.col-->
+                        <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                          <div class="card text-white bg-danger">
+                            <div class="card-body">
+                              <div class="h1 text-muted text-right mb-4">
+                                <i class="fa fa-frown-o"></i>
+                              </div>
+                              <div class="h4 mb-0">{{rouge}} Personnes ({{percentRouge}}%)</div>
+                              <small class="text-muted text-uppercase font-weight-bold">Rouge</small>
+                              <div class="progress progress-white progress-xs mt-3">
+                                <div class="progress-bar" role="progressbar" [ngStyle]="setMyStyles(percentRouge)" [attr.aria-valuenow]="percentRouge" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div><!--/.col-->
+                    </div>
+
+
+                    <!-- <div class="row text-center">
+ 
                         <div class="col-sm-12 col-md mb-sm-3 mb-0">
                           <div class="text-muted">Tous</div>
                           <strong>{{ tous }} Personnes ({{percentTous}}%)</strong>
@@ -36,7 +101,7 @@
                             <div class="progress-bar bg-danger" role="progressbar" [ngStyle]="setMyStyles(percentRouge)" [attr.aria-valuenow]="percentRouge" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
                         </div>
-                      </div>
+                      </div> -->
                 </div>
             </div>
         </div>
@@ -51,7 +116,11 @@
 
         <div class="card">
             <div class="card-header">
-                Liste des Enquêtes 
+                
+                <h3>
+                  <i class="icon-book-open"></i>
+                  Liste des Enquêtes 
+                </h3>
 
                 <select (change)="listPeople($event.target.value)">
                     <option value="tous">Tous</option>
@@ -65,6 +134,8 @@
 
                 	<thead>
                 		<tr>
+                      <th>
+                      </th>
                 			<th>Nom</th>
                 			<th>Nom de Famille</th>
                 			<th>Ville</th>
@@ -78,47 +149,50 @@
 
                 	<tbody>
                 		<tr *ngFor="let person of people" class="">
+                      <td>
+                        <i class="{{ person.simley }} {{ person.confirmed }}"></i>
+                      </td>
                 			<td>
                 				{{ person.name }}
                 			</td>
                 			<td>
-                                {{ person.last_name }}         
-                            </td>
+                          {{ person.last_name }}         
+                      </td>
                 			<td>
-                                {{ person.city }}         
-                            </td>
+                          {{ person.city }}         
+                      </td>
                 			<td>
-                                {{ person.ditrict }}         
-                            </td>
+                          {{ person.district }}         
+                      </td>
                 			<td>
-                                {{ person.region }}         
-                            </td>
+                          {{ person.region }}         
+                      </td>
                 			<td>
-                                {{ person.phone }}         
-                            </td>
+                          {{ person.phone }}         
+                      </td>
                 			<td>
-                                {{ person.family_phone }}         
-                            </td>
-                            <td>
-                                <div class="clearfix">
-                                    <div class="float-left">
-                                      <!-- <strong>{{person.percent}}% des symptômes</strong> -->
-                                      <strong>{{ person.me }}/{{person.sick}} symptomes</strong>
-                                    </div>
-                                    <!-- <div class="float-right">
-                                      <small class="text-muted">{{ person.me }}/{{person.sick}} symptomes</small>
-                                    </div> -->
-                                </div>
-                                <div class="progress progress-xs" *ngIf="person.confirmed == 'rouge'">
-                                    <div class="progress-bar bg-danger" role="progressbar" [ngStyle]="setMyStyles(person.percent)" [attr.aria-valuenow]="person.percent" aria-valuemin="0" aria-valuemax="100"></div>
-                                  </div>
-                                <div class="progress progress-xs" *ngIf="person.confirmed == 'blanc'">
-                                    <div class="progress-bar bg-success" role="progressbar" [ngStyle]="setMyStyles(person.percent)" [attr.aria-valuenow]="person.percent" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <div class="progress progress-xs" *ngIf="person.confirmed == 'jaune'">
-                                    <div class="progress-bar bg-warning" role="progressbar" [ngStyle]="setMyStyles(person.percent)" [attr.aria-valuenow]="person.percent" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
+                          {{ person.family_phone }}         
+                      </td>
+                      <td>
+                          <div class="clearfix">
+                              <div class="float-left">
+                                <!-- <strong>{{person.percent}}% des symptômes</strong> -->
+                                <strong class="{{ person.confirmed }}">{{ person.me }}/{{person.sick}} symptomes</strong>
+                              </div>
+                              <!-- <div class="float-right">
+                                <small class="text-muted">{{ person.me }}/{{person.sick}} symptomes</small>
+                              </div> -->
+                          </div>
+                          <div class="progress progress-xs" *ngIf="person.confirmed == 'rouge'">
+                              <div class="progress-bar bg-danger" role="progressbar" [ngStyle]="setMyStyles(person.percent)" [attr.aria-valuenow]="person.percent" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          <div class="progress progress-xs" *ngIf="person.confirmed == 'blanc'">
+                              <div class="progress-bar bg-success" role="progressbar" [ngStyle]="setMyStyles(person.percent)" [attr.aria-valuenow]="person.percent" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <div class="progress progress-xs" *ngIf="person.confirmed == 'jaune'">
+                              <div class="progress-bar bg-warning" role="progressbar" [ngStyle]="setMyStyles(person.percent)" [attr.aria-valuenow]="person.percent" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                      </td>
                 		</tr>
                 	</tbody>
                 	
@@ -133,10 +207,23 @@
   <div class="row">
     <div class="col-lg-12">
         <div class="card">
-            <div class="card-header">Cartographie</div>
-            <div class="card-body">
+            <div class="card-header">
+              <h3>
+                <i class="icon-map"></i>
+                Cartographie
+              </h3>
+            </div>
+            <div class="card-body" *ngIf="locationList">
                 <agm-map [zoom]="zoom" [latitude]="lat" [longitude]="lng">
-                 <agm-marker *ngFor="let location of locationList" [latitude]="location.lat" [longitude]="location.lng" ></agm-marker>
+                 
+                 <!-- <agm-marker *ngFor="let location of locationList" [latitude]="location.lat" [longitude]="location.lng" ></agm-marker> -->
+
+                 <agm-circle *ngFor="let location of locationList" [latitude]="location.lat" [longitude]="location.lng"
+                  [(radius)]="circleRadius"
+                  [fillColor]="location.color"
+                  [circleDraggable]="false"
+                  [editable]="false">
+                  </agm-circle>
                </agm-map>
             </div>
         </div>
@@ -145,14 +232,17 @@
 </div>
 
 <style type="text/css">
-    i.rouge{
-        color: #da1a21 !important;
+    strong.rouge, i.rouge{
+        color: #f86c6b !important;
+        font-weight: bold !important;
     }
-    i.blanc{
-        color: #8bc34a !important;
+    strong.blanc, i.blanc{
+        color: #4dbd74 !important;
+        font-weight: bold !important;
     }
-    i.jaune{
-        color: #ff9800 !important;
+    strong.jaune, i.jaune{
+        color: #ffc107 !important;
+        font-weight: bold !important;
     }
     agm-map {
      height: 500px;

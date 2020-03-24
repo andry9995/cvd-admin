@@ -25,9 +25,9 @@ export class DashboardComponent implements OnInit {
   percentRouge = 0;
 
   countSymptom = 0;
-  lat = -11.733308;
-  lng = 43.2648763;
-  zoom = 9;
+  lat:number = -11.733308;
+  lng:number = 43.2648763;
+  zoom = 10;
 
   locationList = [];
 
@@ -88,15 +88,19 @@ export class DashboardComponent implements OnInit {
 
                 var confirmed = "blanc";
 
+                var simley = "icon-emotsmile"
+
                 this.tous += 1;
 
                 if(mySymptom.length > 0 && mySymptom.length <= 3){
                   confirmed = "jaune";
                   this.jaune += 1;
+                  simley = "fa fa-meh-o";
                 } else {
                   if (mySymptom.length > 3){
                     confirmed = "rouge";
                     this.rouge += 1;
+                    simley = "fa fa-frown-o";
                   } else {
                     this.blanc += 1;
                   }
@@ -108,22 +112,24 @@ export class DashboardComponent implements OnInit {
                 people[i]['sick'] = this.countSymptom;
                 people[i]['percent']   = this.percentage(mySymptom.length);
                 people[i]['confirmed'] = confirmed;
-
-
-                if(people[i].location){
-                    // this.locationList.push(people[i].location);
-                }
+                people[i]['simley'] = simley;
 
                 if (status != 'tous') {
                   if (confirmed == status) {
                     this.people.push(people[i]);
-                    if(status != 'blanc'){
+                    if(confirmed != 'blanc' && people[i].location){
+                      people[i].location.color = this.getRadiusColor(confirmed)
                       this.locationList.push(people[i].location);
+                      // people[i]['color'] = "#ff9800";
                     }
                   }
                 } else {
                   this.people.push(people[i]);
-                  if(status != 'blanc'){
+                  if(confirmed != 'blanc' && people[i].location){
+
+                    console.log(confirmed);
+
+                    people[i].location.color = this.getRadiusColor(confirmed)
                     this.locationList.push(people[i].location);
                   }
 
@@ -134,6 +140,17 @@ export class DashboardComponent implements OnInit {
         })
     })
 
+  }
+
+  getRadiusColor(status){
+    switch (status) {
+      case "jaune":
+        return "#ff9800";
+        break;
+      case "rouge":
+        return "red";
+        break;
+    }
   }
 
   percentage(count){
@@ -163,5 +180,7 @@ export class DashboardComponent implements OnInit {
     };
     return styles;
   }
+
+  circleRadius:number = 2000;
 
 }
