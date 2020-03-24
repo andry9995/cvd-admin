@@ -33,7 +33,7 @@
                                 <i class="icon-emotsmile"></i>
                               </div>
                               <div class="h4 mb-0">{{blanc}} Personnes ({{percentBlanc}}%)</div>
-                              <small class="text-muted text-uppercase font-weight-bold">Blanc</small>
+                              <small class="text-muted text-uppercase font-weight-bold">Catégorie Vert</small>
                               <div class="progress progress-white progress-xs mt-3">
                                 <div class="progress-bar" role="progressbar" [ngStyle]="setMyStyles(percentBlanc)" [attr.aria-valuenow]="percentBlanc" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
@@ -47,7 +47,7 @@
                                 <i class="fa fa-meh-o"></i>
                               </div>
                               <div class="h4 mb-0">{{jaune}} Personnes ({{percentJaune}}%)</div>
-                              <small class="text-muted text-uppercase font-weight-bold">Jaune</small>
+                              <small class="text-muted text-uppercase font-weight-bold">Catégorie Jaune</small>
                               <div class="progress progress-white progress-xs mt-3">
                                 <div class="progress-bar" role="progressbar" [ngStyle]="setMyStyles(percentJaune)" [attr.aria-valuenow]="percentJaune" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
@@ -61,7 +61,7 @@
                                 <i class="fa fa-frown-o"></i>
                               </div>
                               <div class="h4 mb-0">{{rouge}} Personnes ({{percentRouge}}%)</div>
-                              <small class="text-muted text-uppercase font-weight-bold">Rouge</small>
+                              <small class="text-muted text-uppercase font-weight-bold">Catégorie Rouge</small>
                               <div class="progress progress-white progress-xs mt-3">
                                 <div class="progress-bar" role="progressbar" [ngStyle]="setMyStyles(percentRouge)" [attr.aria-valuenow]="percentRouge" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
@@ -176,12 +176,11 @@
                       <td>
                           <div class="clearfix">
                               <div class="float-left">
-                                <!-- <strong>{{person.percent}}% des symptômes</strong> -->
-                                <strong class="{{ person.confirmed }}">{{ person.me }}/{{person.sick}} symptomes</strong>
+                                <strong class="{{ person.confirmed }}">
+                                  {{ person.me }}/{{person.sick}} symptomes
+                                </strong>
+                                <strong *ngIf="person.confirmed == 'blanc' && person.me != 0" class="{{ person.confirmed }}"> (sans fièvre)</strong>
                               </div>
-                              <!-- <div class="float-right">
-                                <small class="text-muted">{{ person.me }}/{{person.sick}} symptomes</small>
-                              </div> -->
                           </div>
                           <div class="progress progress-xs" *ngIf="person.confirmed == 'rouge'">
                               <div class="progress-bar bg-danger" role="progressbar" [ngStyle]="setMyStyles(person.percent)" [attr.aria-valuenow]="person.percent" aria-valuemin="0" aria-valuemax="100"></div>

@@ -28,6 +28,10 @@ export class DashboardComponent implements OnInit {
   zoom         = 10;
   locationList = [];
 
+  principalList = [];
+  jauneList = [];
+  rougeList = [];
+
   constructor(public firebase: AngularFireDatabase) { 
     this.listPeople('tous');
   }
@@ -36,6 +40,9 @@ export class DashboardComponent implements OnInit {
     this.people       = [];
     this.symptomList  = [];
     this.locationList = [];
+    this.principalList = [];
+    this.jauneList = [];
+    this.rougeList = [];
     this.tous         = 0;
     this.jaune        = 0;
     this.rouge        = 0;
@@ -75,26 +82,40 @@ export class DashboardComponent implements OnInit {
               let surveyKey = i;
               this.getSurvey(surveyKey).then((survey:any)=>{
                 var mySymptom = [];
+                var confirmed = "blanc";
+                var isSuspect = false;
+                var isJaune = false; 
+                var isRouge = false;
+
                 for(let j in survey){
                   var qstKey = j.replace("qst","")
                   if(survey[j] == "oui"){
+
+                    if(this.principalList.includes(qstKey) && isSuspect == false){
+                      isSuspect = true;
+                      isJaune = true;
+                    }
+
+                    if(isSuspect == true && this.rougeList.includes(qstKey) && isRouge == false) {
+                      isRouge = true;
+                    }
+
                     mySymptom.push(qstKey);
                   }
                 }
 
-                var confirmed = "blanc";
                 var simley    = "icon-emotsmile"
                 this.tous     += 1;
 
-                if(mySymptom.length > 0 && mySymptom.length <= 3){
-                  confirmed = "jaune";
-                  this.jaune += 1;
-                  simley = "fa fa-meh-o";
+                if(isRouge){
+                  confirmed = "rouge";
+                  this.rouge += 1;
+                  simley = "fa fa-frown-o";
                 } else {
-                  if (mySymptom.length > 3){
-                    confirmed = "rouge";
-                    this.rouge += 1;
-                    simley = "fa fa-frown-o";
+                  if(isSuspect && isJaune){
+                    confirmed = "jaune";
+                    this.jaune += 1;
+                    simley = "fa fa-meh-o";
                   } else {
                     this.blanc += 1;
                   }
@@ -157,6 +178,20 @@ export class DashboardComponent implements OnInit {
   covidSymptom(){
     return new Promise((resolve)=>{
       this.firebase.object('questionnaire').valueChanges().subscribe((questionnaires:any)=>{
+
+        for(let i in questionnaires){
+          let symptom = questionnaires[i];
+          if(symptom.symptom == "principal"){
+            this.principalList.push(i);
+          } else {
+            if(symptom.symptom == "jaune"){
+              this.jauneList.push(i);
+            } else {
+              this.rougeList.push(i);
+            }
+          }
+        }
+
         this.countSymptom = questionnaires.length - 1;
         resolve(this.countSymptom);
       })
