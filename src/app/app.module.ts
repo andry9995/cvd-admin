@@ -49,6 +49,8 @@ import { AppRoutingModule } from './app.routing';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
+import { MedicalComponent } from './views/medical/medical.component';
+import { EquipementsComponent } from './views/equipements/equipements.component';
 
 @NgModule({
   imports: [
@@ -78,6 +80,8 @@ import { ChartsModule } from 'ng2-charts';
     AppComponent,
     APP_CONTAINERS,
     P404Component,
+    MedicalComponent,
+    EquipementsComponent,
   ],
   providers: [{
     provide: LocationStrategy,

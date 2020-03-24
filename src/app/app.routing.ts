@@ -4,6 +4,10 @@ import { Routes, RouterModule } from '@angular/router';
 // Import Containers
 import { DefaultLayoutComponent } from './containers';
 import { P404Component } from './views/error/404.component';
+
+import { MedicalComponent } from './views/medical/medical.component';
+import { EquipementsComponent } from './views/equipements/equipements.component';
+
 export const routes: Routes = [
   {
     path: '',
@@ -31,9 +35,17 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
-      }
+      },
+      {
+        path: 'medical',
+        component: MedicalComponent,
+        data: {
+          title: 'Ajout'
+        }
+      },
     ]
   },
+  
   { path: '**', component: P404Component }
 ];
 
