@@ -52,6 +52,9 @@ import { ChartsModule } from 'ng2-charts';
 import { MedicalComponent } from './views/medical/medical.component';
 import { EquipementsComponent } from './views/equipements/equipements.component';
 
+import { FormsModule } from '@angular/forms';
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -73,7 +76,8 @@ import { EquipementsComponent } from './views/equipements/equipements.component'
     AgmCoreModule.forRoot({
       apiKey:'AIzaSyAXFL9EGDk4-d0HAFyIHEpJ_EaJyHwjo5E',
       libraries: ["places"]
-    })
+    }),
+    FormsModule
   ],
   declarations: [
     // DashboardComponent,

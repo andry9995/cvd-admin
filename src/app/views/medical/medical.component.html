@@ -19,13 +19,28 @@
 					          	<div class="col-lg-6">
 					          		<div class="card">
 					          			<div class="card-body">
-					          				<table class="table table-hover">
+					          				<table class="table table-responsive-sm table-hover table-outline mb-0">
 					          					<thead>
 					          						<tr>
 					          							<th>#</th>
 					          							<th>Catégorie</th>
+					          							<th>Actions</th>
 					          						</tr>
 					          					</thead>
+					          					<tbody>
+					          						<tr *ngFor="let categorie of categorieList">
+					          							<th>{{ categorie.num }}</th>
+					          							<td>{{ categorie.name }}</td>
+					          							<td>
+					          								<button class="btn btn-outline-info" (click)="editCategorie(categorie.key)">
+					          									<i class="fa fa-edit"></i>
+					          								</button>
+					          								<button class="btn btn-outline-danger" (click)="deleteCategorie(categorie.key)">
+					          									<i class="fa fa-trash"></i>
+					          								</button>
+					          							</td>
+					          						</tr>
+					          					</tbody>
 					          				</table>
 					          			</div>
 					          		</div>
@@ -37,13 +52,14 @@
 									            <div class="col-sm-12">
 									              <div class="form-group">
 									                <label for="name">Catégorie</label>
-									                <input type="text" class="form-control" id="name" placeholder="Nom du catégorie">
+									                <input [(ngModel)]="categorie"  type="text" class="form-control" id="catégorie" placeholder="Nom du catégorie">
+									                <input type="hidden" name="categorieKey" id="categorieKey" [(ngModel)]="categorieKey">
 									              </div>
 									            </div>
 									          </div><!--/.row-->
 									          <div class="row">
 									          	<div class="col-sm-12">
-									          		<button class="btn btn-primary">
+									          		<button class="btn btn-primary" (click)="saveCategorie()">
 									          			<i class="fa fa-save"></i>
 									          			Enregistrer
 									          		</button>
@@ -59,13 +75,17 @@
 					            <div class="col-sm-6">
 					              <div class="form-group">
 					                <label for="name">Nom du médicaments</label>
-					                <input type="text" class="form-control" id="name" placeholder="">
+					                <input [(ngModel)]="medicament.name" type="text" class="form-control" id="medicamentName" placeholder="">
 					              </div>
 					            </div>
 					            <div class="col-sm-6">
 					              <div class="form-group">
 					                <label for="name">Catégorie</label>
-					                <input type="text" class="form-control" id="name" placeholder="">
+					                <!-- <input type="text" class="form-control" id="name" placeholder=""> -->
+					                <select class="form-control" [(ngModel)]="selectedCategorie">
+					                	<option></option>
+					                	<option *ngFor="let categorie of categorieList" value="{{ categorie.key }}">{{ categorie.name }}</option>
+					                </select>
 					              </div>
 					            </div>
 					          </div><!--/.row-->
@@ -73,13 +93,13 @@
 					            <div class="col-sm-6">
 					              <div class="form-group">
 					                <label for="name">Source de Financement</label>
-					                <input type="text" class="form-control" id="name" placeholder="">
+					                <input [(ngModel)]="medicament.sourceFin" type="text" class="form-control" id="medicamentSourceFin" placeholder="">
 					              </div>
 					            </div>
 					            <div class="col-sm-6">
 					              <div class="form-group">
 					                <label for="name">Quantité Disponible</label>
-					                <input type="text" class="form-control" id="name" placeholder="">
+					                <input [(ngModel)]="medicament.qteDispo" type="text" class="form-control" id="medicamentQteDispo" placeholder="">
 					              </div>
 					            </div>
 					          </div><!--/.row-->
@@ -87,16 +107,121 @@
 					            <div class="col-sm-6">
 					              <div class="form-group">
 					                <label for="name">Consaommation annuelle moyenne</label>
-					                <input type="text" class="form-control" id="name" placeholder="">
+					                <input [(ngModel)]="medicament.consAn" type="text" class="form-control" id="medicamentConsAn" placeholder="">
 					              </div>
 					            </div>
 					            <div class="col-sm-6">
 					              <div class="form-group">
 					                <label for="name">Consaommation mensuelle moyenne</label>
-					                <input type="text" class="form-control" id="name" placeholder="">
+					                <input [(ngModel)]="medicament.consMens" type="text" class="form-control" id="medicamentConsMens" placeholder="">
 					              </div>
 					            </div>
 					          </div><!--/.row-->
+					          <div class="row">
+					            <div class="col-sm-6">
+					              <div class="form-group">
+					                <label for="name">Quantité en attente de commande</label>
+					                <input [(ngModel)]="medicament.qteEnAtt" type="text" class="form-control" id="medicamentEnAtt" placeholder="">
+					              </div>
+					            </div>
+					            <div class="col-sm-6">
+					              <div class="form-group">
+					                <label for="name">Date prévue de la commande en attente</label>
+					                <input [(ngModel)]="medicament.datePrev" type="text" class="form-control" id="medicamentDatePrev" placeholder="">
+					              </div>
+					            </div>
+					          </div><!--/.row-->
+					          <div class="row">
+					            <div class="col-sm-6">
+					              <div class="form-group">
+					                <label for="name">Mois de stock disponible</label>
+					                <input [(ngModel)]="medicament.moisStockDisp" type="text" class="form-control" id="medicamentMoisStockDisp" placeholder="">
+					              </div>
+					            </div>
+					            <div class="col-sm-6">
+					              <div class="form-group">
+					                <label for="name">Mois de stock artificiel</label>
+					                <input [(ngModel)]="medicament.moisStockArt" type="text" class="form-control" id="medicamentMoisStockArt" placeholder="">
+					              </div>
+					            </div>
+					          </div><!--/.row-->
+					          <div class="row">
+					            <div class="col-sm-6">
+					              <div class="form-group">
+					                <label for="name">Nom du fournisseur</label>
+					                <input [(ngModel)]="medicament.frs" type="text" class="form-control" id="medicamentFrs" placeholder="">
+					              </div>
+					            </div>
+					            <div class="col-sm-6">
+					              <div class="form-group">
+					                <label for="name">Commentaires</label>
+					                <input [(ngModel)]="medicament.comment" type="text" class="form-control" id="medicamentComment" placeholder="">
+					              </div>
+					            </div>
+					          </div><!--/.row-->
+					          <div class="row">
+					          	<div class="col-sm-6">
+					          		<button class="btn btn-success" (click)="saveMedicament()">
+					          			<i class="fa fa-save"></i>
+					          			Enregistrer
+					          		</button>
+					          	</div>
+					          </div>
+					        </tab>
+					        <tab heading="Liste">
+
+					        	<div class="row">
+					        		<div class="col-sm-6">
+						              <div class="form-group">
+						                <label for="name">Catégorie</label>
+						                <!-- <input type="text" class="form-control" id="name" placeholder=""> -->
+						                <select class="form-control">
+						                	<option></option>
+						                	<option *ngFor="let categorie of categorieList" value="{{ categorie.key }}">{{ categorie.name }}</option>
+						                </select>
+						              </div>
+						            </div>
+					        	</div>
+
+					        	<div class="row medic-tab-lis" *ngFor="let categorie of categorieList">
+					        		<div class="col-lg-12">
+							        	<table class="table table-responsive-sm table-hover table-outline mb-0" >
+							        		<thead>
+							        			<tr>
+							        				<th>{{ categorie.name }}</th>
+							        				<th>Source de Financement</th>
+							        				<th>Disponible</th>
+							        				<th>Quantité disponible</th>
+							        				<th>Consaommation annuelle moyenne</th>
+							        				<th>Consaommation mensuelle moyenne</th>
+							        				<th>Quantité en attente de commande</th>
+							        				<th>Date prévue de la commande en attente</th>
+							        				<th>Mois de stock disponible</th>
+							        				<th>Mois de stock artificiel</th>
+							        				<th>Nom du fournisseur</th>
+							        				<th>Commentaires</th>
+							        			</tr>
+							        		</thead>
+							        		<tbody>
+							        			<tr *ngFor="let medicament of categorie.medicaments">
+							        				<td>{{ medicament.name }}</td>
+							        				<td>{{ medicament.sourceFin }}</td>
+							        				<td></td>
+							        				<td>{{ medicament.qteDispo }}</td>
+							        				<td>{{ medicament.consAn }}</td>
+							        				<td></td>
+							        				<td></td>
+							        				<td></td>
+							        				<td></td>
+							        				<td></td>
+							        				<td></td>
+							        				<td></td>
+							        			</tr>
+							        		</tbody>	
+							        	</table>
+					        		</div>
+					        	</div>
+
 					        </tab>
 					      </tabset>
 					    </div><!--/.col-->
@@ -108,3 +233,10 @@
         </div>
     </div>
 </div>
+
+<style type="text/css">
+	div.medic-tab-lis{
+		padding: 5px;
+		/*margin: 5px;*/
+	}
+</style>
