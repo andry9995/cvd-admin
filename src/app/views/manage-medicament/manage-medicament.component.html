@@ -1,0 +1,208 @@
+<div class="animated fadeIn">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<h3>Médicaments {{ medicament.name }}</h3>
+				</div>
+				<div class="card-body">
+					<div class="row">
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Nom du médicaments</label>
+			                <input [(ngModel)]="medicament.name" type="text" class="form-control" id="medicamentName" placeholder="">
+			              </div>
+			            </div>
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Source de Financement</label>
+			                <input [(ngModel)]="medicament.sourceFin" type="text" class="form-control" id="medicamentSourceFin" placeholder="">
+			              </div>
+			            </div>
+			          </div><!--/.row-->
+			          <div class="row">
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Quantité Disponible</label>
+			                <input [(ngModel)]="medicament.qteDispo" type="number" class="form-control" id="medicamentQteDispo" placeholder="">
+			              </div>
+			            </div>
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Consaommation annuelle moyenne</label>
+			                <input [(ngModel)]="medicament.consAn" type="number" class="form-control" id="medicamentConsAn" placeholder="">
+			              </div>
+			            </div>
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Consaommation mensuelle moyenne</label>
+			                <input [(ngModel)]="medicament.consMens" type="number" class="form-control" id="medicamentConsMens" placeholder="">
+			              </div>
+			            </div>
+			          </div><!--/.row-->
+			        
+			          <div class="row">
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Quantité en attente de commande</label>
+			                <input [(ngModel)]="medicament.qteEnAtt" type="number" class="form-control" id="medicamentEnAtt" placeholder="">
+			              </div>
+			            </div>
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Date prévue de la commande en attente</label>
+			                <input [(ngModel)]="medicament.datePrev" type="text" class="form-control" id="medicamentDatePrev" placeholder="">
+			              </div>
+			            </div>
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Mois de stock disponible</label>
+			                <input [(ngModel)]="medicament.moisStockDisp" type="number" class="form-control" id="medicamentMoisStockDisp" placeholder="">
+			              </div>
+			            </div>
+			          </div><!--/.row-->
+			          <div class="row">
+			            
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Mois de stock artificiel</label>
+			                <input [(ngModel)]="medicament.moisStockArt" type="number" class="form-control" id="medicamentMoisStockArt" placeholder="">
+			              </div>
+			            </div>
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Nom du fournisseur</label>
+			                <input [(ngModel)]="medicament.frs" type="text" class="form-control" id="medicamentFrs" placeholder="">
+			              </div>
+			            </div>
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Commentaires</label>
+			                <input [(ngModel)]="medicament.comment" type="text" class="form-control" id="medicamentComment" placeholder="">
+			              </div>
+			            </div>
+			          </div><!--/.row-->
+			          <div class="row">
+			          	<div class="col-sm-6">
+			          		<button class="btn btn-success" (click)="saveMedicament()">
+			          			<i class="fa fa-save"></i>
+			          			Enregistrer la modification
+			          		</button>
+			          	</div>
+			          </div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<h3>Entrée/Sortie</h3>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="card">
+								<div class="card-header"><h4>Entrée</h4></div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-sm-8">
+											<div class="form-group">
+							                <input [(ngModel)]="input" type="number" class="form-control" id="input" placeholder="Quantité en entrée">
+							              </div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-8">
+							              <div class="form-group">
+							                <textarea [(ngModel)]="inputDesc" class="form-control" placeholder="Notes"></textarea>
+							              </div>
+							            </div>
+							            
+									</div>
+									<div class="row">
+										<div class="col-sm-4">
+							            	<button class="btn btn-success" (click)="saveInput()">
+							            		<i class="fa fa-save"></i>
+							            		Enregistrer
+							            	</button>
+							            </div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-sm-6">
+							<div class="card">
+								<div class="card-header"><h4>Sortie</h4></div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-sm-8">
+											<div class="form-group">
+							                <input [(ngModel)]="output" type="number" class="form-control" id="output" placeholder="Quantité en sortie">
+							              </div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-8">
+							              <div class="form-group">
+							                <textarea [(ngModel)]="outputDesc" class="form-control" placeholder="Notes"></textarea>
+							              </div>
+							            </div>
+							            
+									</div>
+									<div class="row">
+										<div class="col-sm-4">
+							            	<button class="btn btn-warning" (click)="saveOutput()">
+							            		<i class="fa fa-save"></i>
+							            		Enregistrer
+							            	</button>
+							            </div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<h3>Historique</h3>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-lg-12">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Date</th>
+										<th>Statut</th>
+										<th>Quantité</th>
+										<th>Description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let story of storyList">
+										<td>{{ story.date }}</td>
+										<td>{{ story.status }}</td>
+										<td>{{ story.qty }}</td>
+										<td>{{ story.desc }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</div>

@@ -53,6 +53,9 @@ import { MedicalComponent } from './views/medical/medical.component';
 import { EquipementsComponent } from './views/equipements/equipements.component';
 
 import { FormsModule } from '@angular/forms';
+import { CategorieComponent } from './views/categorie/categorie.component';
+import { ManageCategorieComponent } from './views/manage-categorie/manage-categorie.component';
+import { ManageMedicamentComponent } from './views/manage-medicament/manage-medicament.component';
 
 
 @NgModule({
@@ -86,6 +89,9 @@ import { FormsModule } from '@angular/forms';
     P404Component,
     MedicalComponent,
     EquipementsComponent,
+    CategorieComponent,
+    ManageCategorieComponent,
+    ManageMedicamentComponent,
   ],
   providers: [{
     provide: LocationStrategy,

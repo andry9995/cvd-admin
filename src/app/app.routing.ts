@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 // Import Containers
 import { DefaultLayoutComponent } from './containers';
 import { P404Component } from './views/error/404.component';
-
 import { MedicalComponent } from './views/medical/medical.component';
 import { EquipementsComponent } from './views/equipements/equipements.component';
+import { CategorieComponent } from './views/categorie/categorie.component';
+import { ManageCategorieComponent } from './views/manage-categorie/manage-categorie.component';
+import { ManageMedicamentComponent } from './views/manage-medicament/manage-medicament.component';
 
 export const routes: Routes = [
   {
@@ -37,10 +38,24 @@ export const routes: Routes = [
         loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
       {
-        path: 'medical',
-        component: MedicalComponent,
+        path: 'categorie',
+        component: CategorieComponent,
         data: {
-          title: 'Ajout'
+          title: 'Catégorie'
+        }
+      },
+      {
+        path: 'manage-categorie/:key',
+        component: ManageCategorieComponent,
+        data: {
+          title: 'Gestion Catégorie'
+        }
+      },
+      {
+        path: 'manage-medicament/:categorieKey/:key',
+        component: ManageMedicamentComponent,
+        data: {
+          title: 'Gestion Médicament'
         }
       },
     ]

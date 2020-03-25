@@ -1,0 +1,75 @@
+<div class="animated fadeIn">
+    <div class="row">
+    	<div class="col-lg-12">
+    		<div class="card">
+    			<div class="card-header">
+    				<h3>
+    					Ajouter un catégorie
+                    </h3>
+    			</div>
+    			<div class="card-body">
+    				<div class="row">
+			            <div class="col-sm-6">
+			              <div class="form-group">
+			                <label for="name">Nom</label>
+			                <input [(ngModel)]="categorie"  type="text" class="form-control" id="catégorie" placeholder="Nom du catégorie">
+			                <input type="hidden" name="categorieKey" id="categorieKey" [(ngModel)]="categorieKey">
+			              </div>
+			            </div>
+			        </div><!--/.row-->
+		          	<div class="row">
+		          		<div class="col-sm-6">
+		          			<button class="btn btn-success" (click)="saveCategorie()">
+		          				<i class="fa fa-save"></i>
+		          				Enregistrer
+		          			</button>
+		          		</div>
+		          	</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+
+    <div class="row">
+    	<div class="col-lg-12">
+    		<div class="card">
+    			<div class="card-header">
+    				<h3>
+    					Liste des catégories
+    				</h3>
+    			</div>
+    			<div class="card-body">
+    				<div class="row">
+                        <div class="col-lg-12">
+                            <table class="table table-responsive-sm table-hover table-outline mb-0">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Catégorie</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let categorie of categorieList">
+                                        <td>{{ categorie.num }}</td>
+                                        <td>{{ categorie.name }}</td>
+                                        <td>
+                                            <button class="btn btn-outline-info" (click)="goToManageCategorie(categorie.key)">
+                                                <i class="fa fa-edit"></i>
+                                                Gérer
+                                            </button>
+                                            <button class="btn btn-outline-danger" (click)="deleteCategorie(categorie.key)">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>            
+                    </div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+
+</div>

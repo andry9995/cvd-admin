@@ -1,0 +1,190 @@
+<div class="animated fadeIn">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<h3>Catégorie {{ categorie.name }}</h3>
+				</div>
+				<div class="card-body">
+					<div class="row">
+			            <div class="col-sm-6">
+			              <div class="form-group">
+			                <label for="name">Nom</label>
+			                <input [(ngModel)]="categorie.name"  type="text" class="form-control" id="catégorie" placeholder="Nom du catégorie">
+			              </div>
+			            </div>
+			        </div><!--/.row-->
+		          	<div class="row">
+		          		<div class="col-sm-6">
+		          			<button class="btn btn-success" (click)="saveCategorie()">
+		          				<i class="fa fa-save"></i>
+		          				Enregistrer la modification
+		          			</button>
+		          		</div>
+		          	</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<h3>Ajout Médicament</h3>
+				</div>
+				<div class="card-body">
+					<div class="row">
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Nom du médicaments</label>
+			                <input [(ngModel)]="medicament.name" type="text" class="form-control" id="medicamentName" placeholder="">
+			              </div>
+			            </div>
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Source de Financement</label>
+			                <input [(ngModel)]="medicament.sourceFin" type="text" class="form-control" id="medicamentSourceFin" placeholder="">
+			              </div>
+			            </div>
+			          </div><!--/.row-->
+			          <div class="row">
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Quantité Disponible</label>
+			                <input [(ngModel)]="medicament.qteDispo" type="number" class="form-control" id="medicamentQteDispo" placeholder="">
+			              </div>
+			            </div>
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Consaommation annuelle moyenne</label>
+			                <input [(ngModel)]="medicament.consAn" type="number" class="form-control" id="medicamentConsAn" placeholder="">
+			              </div>
+			            </div>
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Consaommation mensuelle moyenne</label>
+			                <input [(ngModel)]="medicament.consMens" type="number" class="form-control" id="medicamentConsMens" placeholder="">
+			              </div>
+			            </div>
+			          </div><!--/.row-->
+			        
+			          <div class="row">
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Quantité en attente de commande</label>
+			                <input [(ngModel)]="medicament.qteEnAtt" type="number" class="form-control" id="medicamentEnAtt" placeholder="">
+			              </div>
+			            </div>
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Date prévue de la commande en attente</label>
+			                <input [(ngModel)]="medicament.datePrev" type="text" class="form-control" id="medicamentDatePrev" placeholder="">
+			              </div>
+			            </div>
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Mois de stock disponible</label>
+			                <input [(ngModel)]="medicament.moisStockDisp" type="number" class="form-control" id="medicamentMoisStockDisp" placeholder="">
+			              </div>
+			            </div>
+			          </div><!--/.row-->
+			          <div class="row">
+			            
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Mois de stock artificiel</label>
+			                <input [(ngModel)]="medicament.moisStockArt" type="number" class="form-control" id="medicamentMoisStockArt" placeholder="">
+			              </div>
+			            </div>
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Nom du fournisseur</label>
+			                <input [(ngModel)]="medicament.frs" type="text" class="form-control" id="medicamentFrs" placeholder="">
+			              </div>
+			            </div>
+			            <div class="col-sm-4">
+			              <div class="form-group">
+			                <label for="name">Commentaires</label>
+			                <input [(ngModel)]="medicament.comment" type="text" class="form-control" id="medicamentComment" placeholder="">
+			              </div>
+			            </div>
+			          </div><!--/.row-->
+			          <div class="row">
+			          	<div class="col-sm-6">
+			          		<button class="btn btn-success" (click)="saveMedicament()">
+			          			<i class="fa fa-save"></i>
+			          			Enregistrer
+			          		</button>
+			          	</div>
+			          </div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12">*
+			<div class="card">
+				<div class="card-header">
+					<h3>Liste des Médicaments</h3>
+				</div>
+				<div class="card-body">
+					<div class="row">
+		        		<div class="col-lg-12">
+				        	<table class="table-responsive" >
+				        		<thead>
+				        			<tr>
+				        				<th>{{ categorie.name }}</th>
+				        				<th>Source de Financement</th>
+				        				<th>Disponible</th>
+				        				<th>Quantité disponible</th>
+				        				<th>Consaommation annuelle moyenne</th>
+				        				<th>Consaommation mensuelle moyenne</th>
+				        				<th>Quantité en attente de commande</th>
+				        				<th>Date prévue de la commande en attente</th>
+				        				<th>Mois de stock disponible</th>
+				        				<th>Mois de stock artificiel</th>
+				        				<th>Nom du fournisseur</th>
+				        				<th>Commentaires</th>
+				        				<th>Actions</th>
+				        			</tr>
+				        		</thead>
+				        		<tbody>
+				        			<tr *ngFor="let medicament of medicaments">
+				        				<td>{{ medicament.name }}</td>
+				        				<td>{{ medicament.sourceFin }}</td>
+				        				<td></td>
+				        				<td>{{ medicament.qteDispo }}</td>
+				        				<td>{{ medicament.consAn }}</td>
+				        				<td>{{ medicament.consMens }}</td>
+				        				<td>{{ medicament.qteEnAtt }}</td>
+				        				<td>{{ medicament.datePrev }}</td>
+				        				<td>{{ medicament.moisStockDisp }}</td>
+				        				<td>{{ medicament.moisStockArt }}</td>
+				        				<td>{{ medicament.frs }}</td>
+				        				<td>{{ medicament.comment }}</td>
+				        				<td>
+				        					<button class="btn btn-outline-info" (click)="goToManageMedicament(medicament.key)">
+                                                <i class="fa fa-edit"></i>
+                                                Gérer
+                                            </button>
+
+				        				</td>
+				        			</tr>
+				        		</tbody>	
+				        	</table>
+		        		</div>
+		        	</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style type="text/css">
+	thead th {
+	    vertical-align: top !important;
+	    /*text-align: center !important;*/
+	}
+</style>

@@ -11,8 +11,8 @@ export const navItems: INavData[] =[{
     icon: 'fa fa-medkit',
     children: [
       {
-        name: 'Gestion',
-        url: '/medical',
+        name: 'Catégorie',
+        url: '/categorie',
         icon: 'fa fa-plus-square'
       },
       // {
