@@ -19,13 +19,13 @@ export class MedicalComponent implements OnInit {
 
 	medicament = {
 		name: '',
-		qteDispo : '',
-		consAn : '',
-		consMens : '',
-		qteEnAtt : '',
+		qteDispo : 0,
+		consAn : 0,
+		consMens : 0,
+		qteEnAtt : 0,
 		datePrev : '',
-		moisStockDisp : '',
-		moisStockArt : '',
+		moisStockDisp : 0,
+		moisStockArt : 0,
 		frs : '',
 		comment : '',
 	};

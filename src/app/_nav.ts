@@ -15,11 +15,11 @@ export const navItems: INavData[] =[{
         url: '/medical',
         icon: 'fa fa-plus-square'
       },
-      {
-        name: 'Liste',
-        url: '/medical',
-        icon: 'fa fa-stethoscope'
-      },
+      // {
+      //   name: 'Liste',
+      //   url: '/medical',
+      //   icon: 'fa fa-stethoscope'
+      // },
     ]
   },
 ]

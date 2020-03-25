@@ -99,7 +99,7 @@
 					            <div class="col-sm-6">
 					              <div class="form-group">
 					                <label for="name">Quantité Disponible</label>
-					                <input [(ngModel)]="medicament.qteDispo" type="text" class="form-control" id="medicamentQteDispo" placeholder="">
+					                <input [(ngModel)]="medicament.qteDispo" type="number" class="form-control" id="medicamentQteDispo" placeholder="">
 					              </div>
 					            </div>
 					          </div><!--/.row-->
@@ -107,13 +107,13 @@
 					            <div class="col-sm-6">
 					              <div class="form-group">
 					                <label for="name">Consaommation annuelle moyenne</label>
-					                <input [(ngModel)]="medicament.consAn" type="text" class="form-control" id="medicamentConsAn" placeholder="">
+					                <input [(ngModel)]="medicament.consAn" type="number" class="form-control" id="medicamentConsAn" placeholder="">
 					              </div>
 					            </div>
 					            <div class="col-sm-6">
 					              <div class="form-group">
 					                <label for="name">Consaommation mensuelle moyenne</label>
-					                <input [(ngModel)]="medicament.consMens" type="text" class="form-control" id="medicamentConsMens" placeholder="">
+					                <input [(ngModel)]="medicament.consMens" type="number" class="form-control" id="medicamentConsMens" placeholder="">
 					              </div>
 					            </div>
 					          </div><!--/.row-->
@@ -121,7 +121,7 @@
 					            <div class="col-sm-6">
 					              <div class="form-group">
 					                <label for="name">Quantité en attente de commande</label>
-					                <input [(ngModel)]="medicament.qteEnAtt" type="text" class="form-control" id="medicamentEnAtt" placeholder="">
+					                <input [(ngModel)]="medicament.qteEnAtt" type="number" class="form-control" id="medicamentEnAtt" placeholder="">
 					              </div>
 					            </div>
 					            <div class="col-sm-6">
@@ -135,13 +135,13 @@
 					            <div class="col-sm-6">
 					              <div class="form-group">
 					                <label for="name">Mois de stock disponible</label>
-					                <input [(ngModel)]="medicament.moisStockDisp" type="text" class="form-control" id="medicamentMoisStockDisp" placeholder="">
+					                <input [(ngModel)]="medicament.moisStockDisp" type="number" class="form-control" id="medicamentMoisStockDisp" placeholder="">
 					              </div>
 					            </div>
 					            <div class="col-sm-6">
 					              <div class="form-group">
 					                <label for="name">Mois de stock artificiel</label>
-					                <input [(ngModel)]="medicament.moisStockArt" type="text" class="form-control" id="medicamentMoisStockArt" placeholder="">
+					                <input [(ngModel)]="medicament.moisStockArt" type="number" class="form-control" id="medicamentMoisStockArt" placeholder="">
 					              </div>
 					            </div>
 					          </div><!--/.row-->
@@ -183,8 +183,8 @@
 						            </div>
 					        	</div>
 
-					        	<div class="row medic-tab-lis" *ngFor="let categorie of categorieList">
-					        		<div class="col-lg-12">
+					        	<div class="row medic-tab-lis" *ngFor="let categorie of categorieList" >
+					        		<div class="col-lg-12" *ngIf="categorie.medicaments.length > 0">
 							        	<table class="table table-responsive-sm table-hover table-outline mb-0" >
 							        		<thead>
 							        			<tr>
@@ -209,13 +209,13 @@
 							        				<td></td>
 							        				<td>{{ medicament.qteDispo }}</td>
 							        				<td>{{ medicament.consAn }}</td>
-							        				<td></td>
-							        				<td></td>
-							        				<td></td>
-							        				<td></td>
-							        				<td></td>
-							        				<td></td>
-							        				<td></td>
+							        				<td>{{ medicament.consMens }}</td>
+							        				<td>{{ medicament.qteEnAtt }}</td>
+							        				<td>{{ medicament.datePrev }}</td>
+							        				<td>{{ medicament.moisStockDisp }}</td>
+							        				<td>{{ medicament.moisStockArt }}</td>
+							        				<td>{{ medicament.frs }}</td>
+							        				<td>{{ medicament.comment }}</td>
 							        			</tr>
 							        		</tbody>	
 							        	</table>
@@ -236,7 +236,11 @@
 
 <style type="text/css">
 	div.medic-tab-lis{
-		padding: 5px;
+		padding-bottom: 35px;
 		/*margin: 5px;*/
+	}
+	.table thead th {
+	    vertical-align: top !important;
+	    /*text-align: center !important;*/
 	}
 </style>
