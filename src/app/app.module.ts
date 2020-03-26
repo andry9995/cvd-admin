@@ -57,6 +57,8 @@ import { CategorieComponent } from './views/categorie/categorie.component';
 import { ManageCategorieComponent } from './views/manage-categorie/manage-categorie.component';
 import { ManageMedicamentComponent } from './views/manage-medicament/manage-medicament.component';
 
+import { AlertModule } from 'ngx-bootstrap/alert';
+
 
 @NgModule({
   imports: [
@@ -80,7 +82,8 @@ import { ManageMedicamentComponent } from './views/manage-medicament/manage-medi
       apiKey:'AIzaSyAXFL9EGDk4-d0HAFyIHEpJ_EaJyHwjo5E',
       libraries: ["places"]
     }),
-    FormsModule
+    FormsModule,
+    AlertModule.forRoot(),
   ],
   declarations: [
     // DashboardComponent,

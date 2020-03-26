@@ -7,6 +7,13 @@
 				</div>
 				<div class="card-body">
 					<div class="row">
+                        <div class="col-lg-12">
+                            <div *ngFor="let alert of alertEdit" >
+                                <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+                              </div>
+                        </div>
+                    </div>
+					<div class="row">
 			            <div class="col-sm-6">
 			              <div class="form-group">
 			                <label for="name">Nom</label>
@@ -35,6 +42,13 @@
 				</div>
 				<div class="card-body">
 					<div class="row">
+                        <div class="col-lg-12">
+                            <div *ngFor="let alert of alertSave" >
+                                <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+                              </div>
+                        </div>
+                    </div>
+					<div class="row">
 			            <div class="col-sm-4">
 			              <div class="form-group">
 			                <label for="name">Nom du médicaments</label>
@@ -52,19 +66,19 @@
 			            <div class="col-sm-4">
 			              <div class="form-group">
 			                <label for="name">Quantité Disponible</label>
-			                <input [(ngModel)]="medicament.qteDispo" type="number" class="form-control" id="medicamentQteDispo" placeholder="">
+			                <input (keyup)="calculeSemaineSD()" [(ngModel)]="medicament.qteDispo" type="number" class="form-control" id="medicamentQteDispo" placeholder="">
 			              </div>
 			            </div>
 			            <div class="col-sm-4">
 			              <div class="form-group">
-			                <label for="name">Consaommation annuelle moyenne</label>
+			                <label for="name">Consommation mensuelle moyenne</label>
 			                <input [(ngModel)]="medicament.consAn" type="number" class="form-control" id="medicamentConsAn" placeholder="">
 			              </div>
 			            </div>
 			            <div class="col-sm-4">
 			              <div class="form-group">
-			                <label for="name">Consaommation mensuelle moyenne</label>
-			                <input [(ngModel)]="medicament.consMens" type="number" class="form-control" id="medicamentConsMens" placeholder="">
+			                <label for="name">Consommation hebdomadaire moyenne</label>
+			                <input (keyup)="calculeSemaineSD()" [(ngModel)]="medicament.consMens" type="number" class="form-control" id="medicamentConsMens" placeholder="">
 			              </div>
 			            </div>
 			          </div><!--/.row-->
@@ -73,7 +87,7 @@
 			            <div class="col-sm-4">
 			              <div class="form-group">
 			                <label for="name">Quantité en attente de commande</label>
-			                <input [(ngModel)]="medicament.qteEnAtt" type="number" class="form-control" id="medicamentEnAtt" placeholder="">
+			                <input (keyup)="calculeSemaineSD()" [(ngModel)]="medicament.qteEnAtt" type="number" class="form-control" id="medicamentEnAtt" placeholder="">
 			              </div>
 			            </div>
 			            <div class="col-sm-4">
@@ -84,8 +98,8 @@
 			            </div>
 			            <div class="col-sm-4">
 			              <div class="form-group">
-			                <label for="name">Mois de stock disponible</label>
-			                <input [(ngModel)]="medicament.moisStockDisp" type="number" class="form-control" id="medicamentMoisStockDisp" placeholder="">
+			                <label for="name">Semaine - stock disponible</label>
+			                <input [(ngModel)]="medicament.moisStockDisp" type="number" class="form-control" id="medicamentMoisStockDisp" placeholder="" readonly="">
 			              </div>
 			            </div>
 			          </div><!--/.row-->
@@ -93,8 +107,8 @@
 			            
 			            <div class="col-sm-4">
 			              <div class="form-group">
-			                <label for="name">Mois de stock artificiel</label>
-			                <input [(ngModel)]="medicament.moisStockArt" type="number" class="form-control" id="medicamentMoisStockArt" placeholder="">
+			                <label for="name">Semaine - stock artificiel</label>
+			                <input [(ngModel)]="medicament.moisStockArt" type="number" class="form-control" id="medicamentMoisStockArt" placeholder="" readonly="">
 			              </div>
 			            </div>
 			            <div class="col-sm-4">
@@ -135,16 +149,16 @@
 				        	<table class="table-responsive" >
 				        		<thead>
 				        			<tr>
-				        				<th>{{ categorie.name }}</th>
+				        				<th>Medicaments (INN)</th>
 				        				<th>Source de Financement</th>
 				        				<th>Disponible</th>
 				        				<th>Quantité disponible</th>
-				        				<th>Consaommation annuelle moyenne</th>
-				        				<th>Consaommation mensuelle moyenne</th>
+				        				<th>Consommation mensuelle moyenne</th>
+				        				<th>Consommation hebdomadaire moyenne</th>
 				        				<th>Quantité en attente de commande</th>
 				        				<th>Date prévue de la commande en attente</th>
-				        				<th>Mois de stock disponible</th>
-				        				<th>Mois de stock artificiel</th>
+				        				<th>Semaine - stock disponible</th>
+				        				<th>Semaine - stock artificiel</th>
 				        				<th>Nom du fournisseur</th>
 				        				<th>Commentaires</th>
 				        				<th>Actions</th>
@@ -154,7 +168,10 @@
 				        			<tr *ngFor="let medicament of medicaments">
 				        				<td>{{ medicament.name }}</td>
 				        				<td>{{ medicament.sourceFin }}</td>
-				        				<td></td>
+				        				<td>
+				        					<span *ngIf="medicament.qteDispo > 0">OUI</span>
+				        					<span *ngIf="medicament.qteDispo == 0">NON</span>
+				        				</td>
 				        				<td>{{ medicament.qteDispo }}</td>
 				        				<td>{{ medicament.consAn }}</td>
 				        				<td>{{ medicament.consMens }}</td>

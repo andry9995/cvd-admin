@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Router, Params, ActivatedRoute } from '@angular/router';
-
+import { DomSanitizer } from '@angular/platform-browser';
+import { AlertConfig } from 'ngx-bootstrap/alert';
 
 @Component({
   selector: 'app-categorie',
@@ -46,6 +47,7 @@ export class CategorieComponent implements OnInit {
   		var ok = this.save('categorie',categorie,key);
 
   		if (ok) {
+        this.showAlertAdd();
   			this.categorie = "";
   			this.categorieKey = "";
   			this.loadListCategorie();
@@ -69,6 +71,7 @@ export class CategorieComponent implements OnInit {
 
   	deleteCategorie(key){
     	this.firebase.list('categorie').remove(key).then((deleted)=>{
+        this.showAlertDelete();
     		this.loadListCategorie();
     	});
 	}
@@ -76,5 +79,25 @@ export class CategorieComponent implements OnInit {
 	goToManageCategorie(key){
 		this.router.navigate(['manage-categorie/' + key]);
 	}
+
+  alertAdd: any = [];
+  alertDelete: any = [];
+
+  showAlertAdd(){
+    this.alertAdd.push({
+      type: 'success',
+      msg: 'NOUVELLE CATEGORIE ENREGISTRE',
+      timeout: 5000
+    });
+  }
+
+  showAlertDelete(){
+    this.alertDelete.push({
+      type: 'danger',
+      msg: 'CATEGORIE SUPPRIME',
+      timeout: 5000
+    });
+  }
+
 
 }

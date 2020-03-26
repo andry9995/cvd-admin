@@ -28,6 +28,7 @@ export class MedicalComponent implements OnInit {
 		moisStockArt : 0,
 		frs : '',
 		comment : '',
+		sourceFin: ''
 	};
 
 	constructor(public firebase: AngularFireDatabase) {

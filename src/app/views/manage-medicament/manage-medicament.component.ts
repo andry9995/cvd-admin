@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Router, Params, ActivatedRoute } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
+import { AlertConfig } from 'ngx-bootstrap/alert';
 
 @Component({
   selector: 'app-manage-medicament',
@@ -23,6 +25,7 @@ export class ManageMedicamentComponent implements OnInit {
 		moisStockArt : 0,
 		frs : '',
 		comment : '',
+    sourceFin: ''
 	};
 
   input: number = 0;
@@ -59,7 +62,13 @@ export class ManageMedicamentComponent implements OnInit {
   }
 
   saveMedicament(){
-    return this.save('categorie/' + this.categorieKey + '/medicament', this.medicament,this.key);
+    return new Promise((resolve)=>{
+      let saved = this.save('categorie/' + this.categorieKey + '/medicament', this.medicament,this.key);
+      if (saved) {
+        this.showAlertEdit();
+        resolve(saved);
+      }
+    })
   }
 
   save(path:string,object:any, key?:string){
@@ -71,26 +80,48 @@ export class ManageMedicamentComponent implements OnInit {
   }
 
   saveInput(){
-    let story = {
-       date: this.dateNow(),
-       status: 'entrée',
-       qty: this.input,
-       desc: this.inputDesc 
-    };
-    let path = 'categorie/' + this.categorieKey + '/medicament/' + this.key + '/story';
-    var ok = this.save(path,story);
-
-    if (ok) {
-      this.medicament.qteDispo = Number(this.medicament.qteDispo) + Number(this.input);
-      let saved = this.saveMedicament();
-
-      if (saved) {
+    this.medicament.qteDispo = Number(this.medicament.qteDispo) + Number(this.input);
+    this.saveMedicament().then((saved)=>{
+      this.setStory('input').then((success)=>{
+        this.showAlertInput();
         this.input = 0;
-        this.inputDesc = ""
+        this.inputDesc = "";
         this.listStory();
+      })
+    })
+  }
+
+  setStory(activity:string){
+    return new Promise((resolve)=>{
+
+      if (activity == 'input') {
+        let story = {
+           date: this.dateNow(),
+           status: 'entrée',
+           qty: this.input,
+           desc: this.inputDesc 
+        };
+        
+        let path = 'story/' + this.key + '/activity';
+        var ok = this.save(path,story);
+
+      } else {
+        let story = {
+           date: this.dateNow(),
+           status: 'sortie',
+           qty: this.output,
+           desc: this.outputDesc 
+        };
+        let path = 'story/' + this.key + '/activity';
+        var ok = this.save(path,story);
       }
 
-    }
+      
+      if (ok) {
+        resolve(ok);
+      }
+
+    })
   }
 
   dateNow(){
@@ -104,32 +135,27 @@ export class ManageMedicamentComponent implements OnInit {
   }
 
   saveOutput(){
-    if ((Number(this.medicament.qteDispo) - Number(this.output)) > 0) {
-      let story = {
-         date: this.dateNow(),
-         status: 'sortie',
-         qty: this.output,
-         desc: this.outputDesc 
-      };
-      let path = 'categorie/' + this.categorieKey + '/medicament/' + this.key + '/story';
-      var ok = this.save(path,story);
 
-      if (ok) {
-        this.medicament.qteDispo = Number(this.medicament.qteDispo) - Number(this.output);
-        let saved = this.saveMedicament();
-        if (saved) {
+    if ((Number(this.medicament.qteDispo) - Number(this.output)) > 0) {
+      this.medicament.qteDispo = Number(this.medicament.qteDispo) - Number(this.output);
+      this.saveMedicament().then((saved)=>{
+        this.setStory('output').then((success)=>{
+          this.showAlertOutput();
           this.output = 0;
           this.outputDesc = "";
           this.listStory();
-        }
-      }
+        })
+      })
+
     } else {
-      // tsy ampy
+      this.showAlertOutputError();
     }
+
+
   }
 
   listStory(){
-    let path = 'categorie/' + this.categorieKey + '/medicament/' + this.key + '/story';
+    let path = 'story/' + this.key + '/activity';
     this.fetchAll(path).then((stories:any)=>{
       for(let i in stories){
         this.storyList.push(stories[i]);
@@ -146,6 +172,69 @@ export class ManageMedicamentComponent implements OnInit {
       })
     })
   }
+
+  alertsDismiss: any = [];
+
+  add(): void {
+    this.alertsDismiss.push({
+      type: 'info',
+      msg: `This alert will be closed in 5 seconds (added: ${new Date().toLocaleTimeString()})`,
+      timeout: 5000
+    });
+  }
+
+  alertEdit: any = [];
+  alertInput: any = [];
+  alertOutput: any = [];
+
+  showAlertEdit(){
+    this.alertEdit.push({
+      type: 'success',
+      msg: 'MODIFICATION ENREGISTRE',
+      timeout: 5000
+    });
+  }
+
+  showAlertInput(){
+    this.alertInput.push({
+      type: 'success',
+      msg: 'ENTREE ENREGISTRE',
+      timeout: 5000
+    });
+  }
+
+  showAlertOutput(){
+    this.alertOutput.push({
+      type: 'success',
+      msg : 'SORTIE ENREGISTRE',
+      timeout: 5000
+    })
+  }
+
+  calculeSemaineSD(){
+    if (this.medicament.qteDispo && this.medicament.consMens) {
+      this.medicament.moisStockDisp = Number(this.medicament.qteDispo) / Number(this.medicament.consMens) ;
+    } else {
+      this.medicament.moisStockDisp = 0;
+    }
+
+    if (this.medicament.qteDispo && this.medicament.qteEnAtt && this.medicament.consMens) {
+      this.medicament.moisStockArt = (Number(this.medicament.qteDispo) + Number(this.medicament.qteEnAtt)) / Number(this.medicament.consMens);
+    } else {
+      this.medicament.moisStockArt = 0;
+    }
+  }
+
+  showAlertOutputError(){
+    this.alertOutput.push({
+      type: 'danger',
+      msg : 'SORTIE SUPERIEUR AU STOCK DISPONIBLE',
+      timeout: 5000
+    })
+  }
+
+
+    
 
 
 

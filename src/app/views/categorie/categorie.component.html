@@ -8,6 +8,14 @@
                     </h3>
     			</div>
     			<div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div *ngFor="let alert of alertAdd" >
+                                <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+                              </div>
+                        </div>
+                    </div>
+
     				<div class="row">
 			            <div class="col-sm-6">
 			              <div class="form-group">
@@ -39,6 +47,13 @@
     				</h3>
     			</div>
     			<div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div *ngFor="let alert of alertDelete" >
+                                <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+                              </div>
+                        </div>
+                    </div>
     				<div class="row">
                         <div class="col-lg-12">
                             <table class="table table-responsive-sm table-hover table-outline mb-0">
