@@ -48,7 +48,7 @@ export const routes: Routes = [
         path: 'manage-categorie/:key',
         component: ManageCategorieComponent,
         data: {
-          title: 'Gestion Catégorie'
+          title: 'Gestion de la Catégorie'
         }
       },
       {

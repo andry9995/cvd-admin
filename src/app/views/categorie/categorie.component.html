@@ -4,7 +4,8 @@
     		<div class="card">
     			<div class="card-header">
     				<h3>
-    					Ajouter un catégorie
+                        <i class="fa fa-plus-circle"></i>
+    					Ajouter une catégorie
                     </h3>
     			</div>
     			<div class="card-body">
@@ -20,7 +21,7 @@
 			            <div class="col-sm-6">
 			              <div class="form-group">
 			                <label for="name">Nom</label>
-			                <input [(ngModel)]="categorie"  type="text" class="form-control" id="catégorie" placeholder="Nom du catégorie">
+			                <input [(ngModel)]="categorie"  type="text" class="form-control" id="catégorie" placeholder="Nom de la catégorie">
 			                <input type="hidden" name="categorieKey" id="categorieKey" [(ngModel)]="categorieKey">
 			              </div>
 			            </div>
@@ -43,6 +44,7 @@
     		<div class="card">
     			<div class="card-header">
     				<h3>
+                        <i class="fa fa-th"></i>
     					Liste des catégories
     				</h3>
     			</div>
