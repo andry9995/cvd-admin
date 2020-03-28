@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { EventEmitter, Component, OnInit, ViewChild, ElementRef, Input, Output, } from '@angular/core';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { AngularFireDatabase } from '@angular/fire/database';
+
+import { loadModules } from "esri-loader";
+import esri = __esri;
 
 @Component({
   templateUrl: 'dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
 
-  ngOnInit(): void {
-    
+  ngOnInit() {
+    // this.init();
   }
 
   people       = [];
@@ -23,9 +26,9 @@ export class DashboardComponent implements OnInit {
   percentJaune = 0;
   percentRouge = 0;
   countSymptom = 0;
-  lat          :number = -11.733308;
-  lng          :number = 43.2648763;
-  zoom         = 10;
+  lat          :number = -12.015534;
+  lng          :number = 43.899710;
+  // zoom         = 10;
   locationList = [];
 
   principalList = [];
@@ -72,6 +75,8 @@ export class DashboardComponent implements OnInit {
   }
 
   listPeople(status){
+
+    this.createMap();
 
     this.initialize();
 
@@ -146,9 +151,13 @@ export class DashboardComponent implements OnInit {
 
                 }
 
+                this.createPoint(people[i].location);
+
               })
             }
         })
+    }).then(()=>{
+      this.displayMap();
     })
 
   }
@@ -156,10 +165,10 @@ export class DashboardComponent implements OnInit {
   getRadiusColor(status){
     switch (status) {
       case "jaune":
-        return "#ff9800";
+        return "#ffc107";
         break;
       case "rouge":
-        return "red";
+        return "#f86c6b";
         break;
     }
   }
@@ -207,5 +216,194 @@ export class DashboardComponent implements OnInit {
   }
 
   circleRadius:number = 2000;
+
+
+  // ESRI ARCGIS MAP
+  @Output() mapLoadedEvent = new EventEmitter<boolean>();
+  @ViewChild("mapViewNode", { static: true }) private mapViewEl: ElementRef;
+  
+  private _zoom = 8;
+  private _center: Array<number> = [this.lng, this.lat];
+  private _basemap = "streets-night-vector";
+  private _loaded = false;
+  private _view: esri.MapView = null;
+
+  get mapLoaded(): boolean {
+    return this._loaded;
+  }
+
+  @Input()
+  set zoom(zoom: number) {
+    this._zoom = zoom;
+  }
+
+  get zoom(): number {
+    return this._zoom;
+  }
+
+  @Input()
+  set center(center: Array<number>) {
+    this._center = center;
+  }
+
+  get center(): Array<number> {
+    return this._center;
+  }
+
+  @Input()
+  set basemap(basemap: string) {
+    this._basemap = basemap;
+  }
+
+  get basemap(): string {
+    return this._basemap;
+  }
+
+  map : esri.Map;
+
+  graphicsLayer: any;
+
+  async createMap(){
+    const [EsriMap, EsriGraphicsLayer] = await loadModules([
+        "esri/Map",
+        "esri/layers/GraphicsLayer"
+    ]);
+
+    const mapProperties: esri.MapProperties = {
+        basemap: this._basemap
+    };
+
+    this.graphicsLayer = new EsriGraphicsLayer();
+    this.map = new EsriMap(mapProperties);
+    this.map.add(this.graphicsLayer);
+  }
+
+
+  async createPoint(location){
+    if (location.color) {
+      
+    const [EsriGraphic] = await loadModules([
+        "esri/Graphic",
+    ]);
+
+    var point = {
+       type: "point",
+       longitude: location.lng,
+       latitude: location.lat
+     };
+
+     var simpleMarkerSymbol = {
+       type: "simple-marker",
+       color: location.color,  // orange
+       outline: {
+         color: [255, 255, 255], // white
+         width: 1
+       }
+     };
+
+     var pointGraphic = new EsriGraphic({
+       geometry: point,
+       symbol: simpleMarkerSymbol
+     });
+
+     this.graphicsLayer.add(pointGraphic);
+  
+    }
+  }
+
+  async displayMap(){
+    const [EsriMap, EsriMapView, EsriGraphic, EsriGraphicsLayer] = await loadModules([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/Graphic",
+        "esri/layers/GraphicsLayer"
+    ]);
+
+    const mapViewProperties: esri.MapViewProperties = {
+        container: this.mapViewEl.nativeElement,
+        center: this._center,
+        zoom: this._zoom,
+        map: this.map
+      };
+
+      this._view = new EsriMapView(mapViewProperties);
+      await this._view.when();
+      return this._view;
+  }
+
+
+  async initializeMap() {
+    try {
+      const [EsriMap, EsriMapView, EsriGraphic, EsriGraphicsLayer] = await loadModules([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/Graphic",
+        "esri/layers/GraphicsLayer"
+      ]);
+
+      // Configure the Map
+      const mapProperties: esri.MapProperties = {
+        basemap: this._basemap
+      };
+
+      var graphicsLayer = new EsriGraphicsLayer();
+
+      const map: esri.Map = new EsriMap(mapProperties);
+      
+      map.add(graphicsLayer);
+
+      
+      for(let i in this.locationList){
+
+        let location = this.locationList[i];
+
+        var point = {
+           type: "point",
+           longitude: location.lng,
+           latitude: location.lat
+         };
+
+         var simpleMarkerSymbol = {
+           type: "simple-marker",
+           color: "#f86c6b",  // orange
+           outline: {
+             color: [255, 255, 255], // white
+             width: 1
+           }
+         };
+
+         var pointGraphic = new EsriGraphic({
+           geometry: point,
+           symbol: simpleMarkerSymbol
+         });
+
+         graphicsLayer.add(pointGraphic);
+      }
+
+
+      // Initialize the MapView
+      const mapViewProperties: esri.MapViewProperties = {
+        container: this.mapViewEl.nativeElement,
+        center: this._center,
+        zoom: this._zoom,
+        map: map
+      };
+
+      this._view = new EsriMapView(mapViewProperties);
+      await this._view.when();
+      return this._view;
+    } catch (error) {
+      console.log("EsriLoader: ", error);
+    }
+  }
+
+  initEsriMap(){
+    this.initializeMap().then(mapView => {
+      // The map has been initialized
+      console.log("mapView ready: ", this._view.ready);
+      this._loaded = this._view.ready;
+      this.mapLoadedEvent.emit(true);
+    });
+  }
 
 }

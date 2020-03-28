@@ -212,10 +212,13 @@
                 Cartographie
               </h3>
             </div>
-            <div class="card-body" *ngIf="locationList">
+
+            <div class="card-body">
+              <div #mapViewNode></div>
+            </div>
+
+            <!-- <div class="card-body" *ngIf="locationList">
                 <agm-map [zoom]="zoom" [latitude]="lat" [longitude]="lng">
-                 
-                 <!-- <agm-marker *ngFor="let location of locationList" [latitude]="location.lat" [longitude]="location.lng" ></agm-marker> -->
 
                  <agm-circle *ngFor="let location of locationList" [latitude]="location.lat" [longitude]="location.lng"
                   [(radius)]="circleRadius"
@@ -224,7 +227,7 @@
                   [editable]="false">
                   </agm-circle>
                </agm-map>
-            </div>
+            </div> -->
         </div>
     </div>
     </div>
